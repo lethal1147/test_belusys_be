@@ -76,4 +76,11 @@ export class StudentResolver {
   ): Promise<boolean> {
     return this.studentService.addStudentToClassroom(studentid, classroomid);
   }
+
+  @Mutation(() => Boolean)
+  async removeStudentFromClassroom(
+    @Args("studentid", { type: () => Number }) studentid: number
+  ): Promise<boolean> {
+    return this.studentService.removeStudentFromClassroom(studentid);
+  }
 }

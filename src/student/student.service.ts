@@ -292,4 +292,19 @@ export class StudentService {
 
     return true;
   }
+
+  async removeStudentFromClassroom(studentid: number): Promise<boolean> {
+    const studentClassroom = await this.studentClassroomRepository.findOne({
+      where: { student: { studentid } },
+    });
+
+    if (!studentClassroom) {
+      throw new NotFoundException(
+        `Student with ID ${studentid} not found in any classroom`
+      );
+    }
+
+    await this.studentClassroomRepository.remove(studentClassroom);
+    return true;
+  }
 }
