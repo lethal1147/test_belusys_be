@@ -1,0 +1,109 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Gender {
+  genderid: Float!
+  gendername: String!
+}
+
+type GradeLevel {
+  gradelevelid: Float!
+  levelName: String!
+}
+
+type Prefix {
+  prefixid: Float!
+  prefixname: String!
+}
+
+type Student {
+  studentid: Int!
+  firstname: String!
+  lastname: String!
+  birthdate: DateTime!
+  gender: Gender!
+  gradeLevel: GradeLevel!
+  prefix: Prefix!
+  studentClassrooms: [StudentClassroom!]!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type GetStudentResponse {
+  data: [Student!]!
+  total: Int!
+}
+
+type Classroom {
+  classroomid: Int!
+  classname: String!
+  academic_year: String!
+  homeroom_teacher: String!
+  students: [Student!]
+}
+
+type StudentClassroom {
+  student_classroom_id: Int!
+  student: Student!
+  classroom: Classroom!
+}
+
+type Query {
+  getAllstudents(studentid: Float, textSearch: String, gradelevelid: Float, page: Int, pageLimit: Int): GetStudentResponse!
+  getOneStudent(studentid: Float): Student!
+  getAllStudentDropdown: [Student!]!
+  getAllClassroom: [Classroom!]!
+  getAllClassroomWithStudent(classroomid: Float, classname: String, homeroomTeacher: String): [Classroom!]!
+  getOneClassroom(classroomid: Float!): Classroom!
+  getAllGradeLevel: [GradeLevel!]!
+  getAllGender: [Gender!]!
+  getAllPrefix: [Prefix!]!
+}
+
+type Mutation {
+  createStudent(createStudentDto: CreateStudentDto!): Student!
+  updateStudent(updateStudentDto: UpdateStudentDto!): Student!
+  deleteStudent(studentid: Float!): Boolean!
+  addStudentToClassroom(studentid: Float!, classroomid: Float!): Boolean!
+  createNewClassroom(createClassroomDto: CreateClassroomDto!): Classroom!
+  editClassroom(editClassroomDto: EditClassroomDto!): Classroom!
+  deleteClassroom(classroomid: Int!): Boolean!
+}
+
+input CreateStudentDto {
+  firstname: String!
+  lastname: String!
+  birthdate: DateTime!
+  prefixid: Int!
+  genderid: Int!
+  gradelevelid: Int!
+  classroomid: Int!
+}
+
+input UpdateStudentDto {
+  studentid: Int!
+  firstname: String
+  lastname: String
+  birthdate: DateTime
+  prefixid: Int
+  genderid: Int
+  gradelevelid: Int
+  classroomid: Int
+}
+
+input CreateClassroomDto {
+  classname: String!
+  academic_year: String!
+  homeroom_teacher: String!
+}
+
+input EditClassroomDto {
+  classroomid: Int!
+  classname: String
+  academic_year: String
+  homeroom_teacher: String
+}
